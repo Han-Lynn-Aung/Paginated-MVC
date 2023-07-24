@@ -3,15 +3,16 @@
 <head>
     <!-- Include necessary CSS and JS files -->
     <!-- Example: Using Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <h2>Authors List</h2>
+    <a class="btn btn-primary" th:href="@{/home}">Go to Home</a>
     <a class="btn btn-primary" th:href="@{/authors/newAuthor}">Add New Author</a>
     <a class="btn btn-info" th:href="@{/books/bookList}">View Books</a>
-    <table id="authorTable" class="table table-striped">
+    <table class="table table-striped" id="authorTable">
         <thead>
         <tr>
             <th>Author ID</th>
@@ -25,11 +26,12 @@
         <tr th:each="author : ${authors}">
             <td th:text="${author.id}"></td>
             <td th:text="${author.name}"></td>
-            <td th:text="${#dates.format(author.dateOfBirth, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#dates.format(author.dateOfBirth, 'dd-MM-yyyy')}"></td>
             <td th:text="${author.address}"></td>
             <td>
                 <a class="btn btn-info" th:href="@{/authors/editAuthor/{id}(id=${author.id})}">Edit</a>
-                <a class="btn btn-danger" th:href="@{/authors/deleteAuthor/{id}(id=${author.id})}" onclick="return confirm('Are you sure you want to delete this author?')">Delete</a>
+                <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this author?')"
+                   th:href="@{/authors/deleteAuthor/{id}(id=${author.id})}">Delete</a>
             </td>
         </tr>
         </tbody>

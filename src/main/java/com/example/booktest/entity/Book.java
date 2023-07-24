@@ -3,12 +3,13 @@ package com.example.booktest.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.util.Date;
 
 @Entity
 @Table(name = "books")
@@ -24,8 +25,11 @@ public class Book {
     private String title;
     @NotBlank(message = "Genre is required!")
     private String genre;
-    @NotBlank(message = "Published Date is required!")
-    private String publishedDate;
+
+    @NotNull(message = "Published Date is required!")
+    @Past(message = "Published Date must be in the past")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private Date publishedDate;
 
     @ManyToOne
     private Author author;

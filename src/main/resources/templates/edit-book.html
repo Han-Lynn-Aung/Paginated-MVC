@@ -2,31 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Include necessary CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    <h2>Edit Author</h2>
-    <form th:action="@{/books/editBook/{id}(id=${book.id})}" th:object="${book}" method="post">
-        <input type="hidden" th:field="*{id}" />
+    <h2>Edit Book</h2>
+    <form method="post" th:action="@{/books/editBook/{id}(id=${book.id})}" th:object="${book}">
+        <input th:field="*{id}" type="hidden"/>
         <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" th:field="*{title}" id="title" required />
+            <input class="form-control" id="title" required th:field="*{title}" type="text"/>
         </div>
 
         <div class="form-group">
             <label for="genre">Genre:</label>
-            <input type="text" class="form-control" th:field="*{genre}" id="genre" required />
+            <input class="form-control" id="genre" required th:field="*{genre}" type="text"/>
         </div>
 
         <div class="form-group">
             <label for="publishedDate">Published Date:</label>
-            <input type="text" class="form-control" th:field="*{publishedDate}" id="publishedDate" required />
+            <input class="form-control" id="publishedDate" required th:field="*{publishedDate}" type="date"/>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input class="form-control" id="author" required th:field="*{author}" type="text"/>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Update</button>
     </form>
-    <a th:href="@{/books/bookList}" class="btn btn-secondary">Back to List</a>
+    <a class="btn btn-secondary" th:href="@{/books/bookList}">Back to List</a>
 </div>
 
 <!-- Include necessary JS and jQuery (for validation) -->
@@ -37,7 +42,7 @@
     $(document).ready(function () {
         $("form").submit(function () {
             var isValid = true;
-            $("input[type='text']").each(function () {
+            $("input[type='text'], input[type='date']").each(function () {
                 if (!$(this).val()) {
                     $(this).addClass("is-invalid");
                     isValid = false;

@@ -1,6 +1,7 @@
 package com.example.booktest.controller;
 
 import com.example.booktest.entity.Author;
+import com.example.booktest.entity.Book;
 import com.example.booktest.repo.AuthorRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class AuthorController {
             return "author-form";
         }
         authorRepo.save(author);
-        return "redirect:/author/authorList";
+        return "redirect:/authors/authorList";
     }
 
     @GetMapping("/authors/editAuthor/{id}")
@@ -53,8 +54,15 @@ public class AuthorController {
         if (result.hasErrors()) {
             return "edit-author";
         }
-        author.setId(id);
-        authorRepo.save(author);
+        Author existingAuthor = authorRepo.getById(id);
+        if (existingAuthor == null){
+            return "redirect:/authors/authorList";
+        }
+        existingAuthor.setName(author.getName());
+        existingAuthor.setDateOfBirth(author.getDateOfBirth());
+        existingAuthor.setAddress(author.getAddress());
+
+        authorRepo.save(existingAuthor);
         return "redirect:/authors/authorList";
     }
 
