@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,11 +35,16 @@ public class AuthorController {
     }
 
     @PostMapping("/authors/saveAuthor")
-    public String saveAuthor(@Valid Author author, BindingResult result) {
+    public String saveAuthor(@Valid Author author, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "author-form";
+            System.out.println("Result : " + result);
+            redirectAttributes.addFlashAttribute("saveError", true);
+        } else {
+            System.out.println("Saving author: " + author.toString());
+            authorRepo.save(author);
+            System.out.println("Author saved: " + author.toString());
+            redirectAttributes.addFlashAttribute("saveSuccess", true);
         }
-        authorRepo.save(author);
         return "redirect:/authors/authorList";
     }
 

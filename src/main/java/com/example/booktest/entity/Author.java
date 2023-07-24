@@ -31,5 +31,5 @@ public class Author {
     private Date dateOfBirth;
 
     @NotBlank(message = "Address is required!")
-    private String Address;
+    private String address;
 }
