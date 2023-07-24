@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/book")
 public class BookController {
 
     private final BookRepo bookRepo;
@@ -20,36 +19,36 @@ public class BookController {
         this.bookRepo = bookRepo;
     }
 
-    @GetMapping("/bookList")
+    @GetMapping("/books/bookList")
     public String showBooks(Model model) {
         List<Book> books = bookRepo.findAll();
         model.addAttribute("books", books);
         return "book-list";
     }
 
-    @GetMapping("/newBook")
+    @GetMapping("/books/newBook")
     public String showBookForm(Model model) {
         model.addAttribute("book", new Book());
         return "book-form";
     }
 
-    @PostMapping("/saveBook")
+    @PostMapping("/books/saveBook")
     public String saveBook(@Valid Book book, BindingResult result) {
         if (result.hasErrors()) {
             return "book-form";
         }
         bookRepo.save(book);
-        return "redirect:/book/bookList";
+        return "redirect:/books/bookList";
     }
 
-    @GetMapping("/editBook/{id}")
+    @GetMapping("/books/editBook/{id}")
     public String showEditBookForm(@PathVariable("id") Long id, Model model) {
         Book book = bookRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book ID: " + id));
         model.addAttribute("book", book);
         return "edit-book";
     }
 
-    @PostMapping("/editBook/{id}")
+    @PostMapping("/books/editBook/{id}")
     public String updateBook(@PathVariable("id") Long id, @Valid Book book, BindingResult result) {
         if (result.hasErrors()) {
             return "edit-book";
@@ -59,9 +58,9 @@ public class BookController {
         return "redirect:/book/bookList";
     }
 
-    @GetMapping("/deleteBook/{id}")
+    @GetMapping("/books/deleteBook/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepo.deleteById(id);
-        return "redirect:/book/bookList";
+        return "redirect:/books/bookList";
     }
 }

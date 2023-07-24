@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table (name = "authors")
@@ -26,6 +24,4 @@ public class Author {
     private Date dateOfBirth;
     @NotBlank(message = "Address is required!")
     private String Address;
-
-
 }

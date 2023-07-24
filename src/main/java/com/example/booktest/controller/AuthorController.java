@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/author")
 public class AuthorController {
 
     private final AuthorRepo authorRepo;
@@ -20,20 +19,20 @@ public class AuthorController {
         this.authorRepo = authorRepo;
     }
 
-    @GetMapping("/authorList")
+    @GetMapping("/authors/authorList")
     public String showAuthors(Model model) {
         List<Author> authors = authorRepo.findAll();
         model.addAttribute("authors", authors);
         return "author-list";
     }
 
-    @GetMapping("/newAuthor")
+    @GetMapping("/authors/newAuthor")
     public String showAuthorForm(Model model) {
         model.addAttribute("author", new Author());
         return "author-form";
     }
 
-    @PostMapping("/saveAuthor")
+    @PostMapping("/authors/saveAuthor")
     public String saveAuthor(@Valid Author author, BindingResult result) {
         if (result.hasErrors()) {
             return "author-form";
@@ -42,26 +41,26 @@ public class AuthorController {
         return "redirect:/author/authorList";
     }
 
-    @GetMapping("/editAuthor/{id}")
+    @GetMapping("/authors/editAuthor/{id}")
     public String showEditAuthorForm(@PathVariable("id") Long id, Model model) {
         Author author = authorRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid author ID: " + id));
         model.addAttribute("author", author);
         return "edit-author";
     }
 
-    @PostMapping("/editAuthor/{id}")
+    @PostMapping("/authors/editAuthor/{id}")
     public String updateAuthor(@PathVariable("id") Long id, @Valid Author author, BindingResult result) {
         if (result.hasErrors()) {
             return "edit-author";
         }
         author.setId(id);
         authorRepo.save(author);
-        return "redirect:/author/authorList";
+        return "redirect:/authors/authorList";
     }
 
-    @GetMapping("/deleteAuthor/{id}")
+    @GetMapping("/authors/deleteAuthor/{id}")
     public String deleteAuthor(@PathVariable("id") Long id) {
         authorRepo.deleteById(id);
-        return "redirect:/author/authorList";
+        return "redirect:/authors/authorList";
     }
 }
