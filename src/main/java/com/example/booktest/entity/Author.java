@@ -27,7 +27,7 @@ public class Author {
 
     @NotNull(message = "Date of Birth is required!")
     @Past(message = "Date of Birth must be in the past")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     @NotBlank(message = "Address is required!")

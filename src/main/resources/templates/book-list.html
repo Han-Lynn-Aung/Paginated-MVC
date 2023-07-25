@@ -28,7 +28,7 @@
             <td th:text="${book.id}"></td>
             <td th:text="${book.title}"></td>
             <td th:text="${book.genre}"></td>
-            <td th:text="${#dates.format(book.publishedDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(book.publishedDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${book.author.getName()}"></td>
             <td>
                 <a class="btn btn-info" th:href="@{/books/editBook/{id}(id=${book.id})}">Edit</a>
@@ -39,6 +39,17 @@
         </tbody>
     </table>
 </div>
+
+<!--/*@thymesVar id="deleteError" type="com.example.booktest.controller.BookController"*/-->
+<div class="alert alert-danger" th:if="${deleteError}">
+    Book not found. Please make sure the book ID is correct.
+</div>
+
+<!--/*@thymesVar id="deleteSuccess" type="com.example.booktest.controller.BookController"*/-->
+<div class="alert alert-success" th:if="${deleteSuccess}">
+    Book deleted successfully.
+</div>
+
 
 <!-- Include necessary JS files -->
 <!-- Example: Using jQuery and DataTables -->

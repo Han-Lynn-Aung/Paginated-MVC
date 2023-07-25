@@ -26,7 +26,7 @@
         <tr th:each="author : ${authors}">
             <td th:text="${author.id}"></td>
             <td th:text="${author.name}"></td>
-            <td th:text="${#dates.format(author.dateOfBirth, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(author.dateOfBirth, 'yyyy-MM-dd')}"></td>
             <td th:text="${author.address}"></td>
             <td>
                 <a class="btn btn-info" th:href="@{/authors/editAuthor/{id}(id=${author.id})}">Edit</a>
@@ -36,6 +36,16 @@
         </tr>
         </tbody>
     </table>
+</div>
+
+<!--/*@thymesVar id="saveError" type="com.example.booktest.controller.AuthorController"*/-->
+<div th:if="${saveError}" class="alert alert-danger">
+    Error saving author. Please check the form fields and try again.
+</div>
+
+<!--/*@thymesVar id="saveSuccess" type="com.example.booktest.controller.AuthorController"*/-->
+<div th:if="${saveSuccess}" class="alert alert-success">
+    Author saved successfully.
 </div>
 
 <!-- Include necessary JS files -->

@@ -21,12 +21,19 @@
 
         <div class="form-group">
             <label for="publishedDate">Published Date:</label>
-            <input class="form-control" id="publishedDate" required th:field="*{publishedDate}" type="date"/>
+            <input class="form-control" id="publishedDate" pattern="yyyy-MM-dd" required th:field="*{publishedDate}" type="date" th:value="${#dates.format(book.publishedDate, 'yyyy-MM-dd')}"/>
+        </div>
+
+        <!--Validate future or past-->
+        <div th:if="${#fields.hasErrors('publishedDate')}" class="alert alert-danger">
+            <p th:errors="*{publishedDate}">Invalid date format. Please use yyyy-MM-dd.</p>
         </div>
 
         <div class="form-group">
             <label for="author">Author:</label>
-            <input class="form-control" id="author" required th:field="*{author}" type="text"/>
+            <select class="form-control" id="author" th:field="*{author.id}">
+                <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+            </select>
         </div>
 
         <button class="btn btn-primary" type="submit">Update</button>

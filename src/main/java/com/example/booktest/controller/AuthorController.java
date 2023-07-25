@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,14 +38,17 @@ public class AuthorController {
     @PostMapping("/authors/saveAuthor")
     public String saveAuthor(@Valid Author author, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            System.out.println("Result : " + result);
             redirectAttributes.addFlashAttribute("saveError", true);
-        } else {
-            System.out.println("Saving author: " + author.toString());
-            authorRepo.save(author);
-            System.out.println("Author saved: " + author.toString());
-            redirectAttributes.addFlashAttribute("saveSuccess", true);
+            return "author-form";
         }
+        Date currentDate = new Date();
+        if (author.getDateOfBirth() != null && author.getDateOfBirth().after(currentDate)){
+            redirectAttributes.addFlashAttribute("dateOfBirthError", true);
+            return "author-form";
+        }
+            authorRepo.save(author);
+            redirectAttributes.addFlashAttribute("saveSuccess", true);
+
         return "redirect:/authors/authorList";
     }
 
@@ -61,9 +65,6 @@ public class AuthorController {
             return "edit-author";
         }
         Author existingAuthor = authorRepo.getById(id);
-        if (existingAuthor == null){
-            return "redirect:/authors/authorList";
-        }
         existingAuthor.setName(author.getName());
         existingAuthor.setDateOfBirth(author.getDateOfBirth());
         existingAuthor.setAddress(author.getAddress());

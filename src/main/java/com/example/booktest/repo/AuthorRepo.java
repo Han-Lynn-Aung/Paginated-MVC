@@ -7,5 +7,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface AuthorRepo extends JpaRepository<Author,Long> {
-
 }

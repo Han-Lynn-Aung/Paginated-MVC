@@ -21,14 +21,16 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "Title is required!")
     private String title;
+
     @NotBlank(message = "Genre is required!")
     private String genre;
 
     @NotNull(message = "Published Date is required!")
     @Past(message = "Published Date must be in the past")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publishedDate;
 
     @ManyToOne

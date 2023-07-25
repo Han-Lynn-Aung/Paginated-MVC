@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <label for="dateOfBirth">Date of Birth:</label>
-            <input class="form-control" id="dateOfBirth" required th:field="*{dateOfBirth}" type="date"/>
+            <input class="form-control" id="dateOfBirth" pattern="yyyy-MM-dd" required th:field="*{dateOfBirth}" type="date" th:value="${#dates.format(author.dateOfBirth)}" />
         </div>
 
         <div class="form-group">
