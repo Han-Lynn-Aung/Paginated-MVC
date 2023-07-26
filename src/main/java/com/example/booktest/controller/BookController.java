@@ -4,6 +4,8 @@ import com.example.booktest.entity.Author;
 import com.example.booktest.entity.Book;
 import com.example.booktest.repo.AuthorRepo;
 import com.example.booktest.repo.BookRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +29,11 @@ public class BookController {
     }
 
     @GetMapping("/books/bookList")
-    public String showAuthors(Model model) {
-        List<Book> books = bookRepo.findAll();
-        model.addAttribute("books", books);
+    public String showBooks(Model model, Pageable pageable) {
+        Page<Book> bookPage = bookRepo.findAll(pageable);
+        model.addAttribute("authors", bookPage.getContent());
+        model.addAttribute("currentPage", bookPage.getNumber());
+        model.addAttribute("totalPages", bookPage.getTotalPages());
         return "book-list";
     }
 

@@ -38,6 +38,17 @@
         </tr>
         </tbody>
     </table>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${currentPage > 0}">
+            <a class="page-link" th:href="@{/books/bookList(page=${currentPage - 1})}">Previous</a>
+        </li>
+        <li class="page-item" th:each="page : ${#numbers.sequence(0, totalPages - 1)}">
+            <a class="page-link" th:href="@{/books/bookList(page=${page})}" th:text="${page + 1}"></a>
+        </li>
+        <li class="page-item" th:if="${currentPage < totalPages - 1}">
+            <a class="page-link" th:href="@{/books/bookList(page=${currentPage + 1})}">Next</a>
+        </li>
+    </ul>
 </div>
 
 <!--/*@thymesVar id="deleteError" type="com.example.booktest.controller.BookController"*/-->

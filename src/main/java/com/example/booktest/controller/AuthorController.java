@@ -3,6 +3,8 @@ package com.example.booktest.controller;
 import com.example.booktest.entity.Author;
 import com.example.booktest.entity.Book;
 import com.example.booktest.repo.AuthorRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,9 +25,11 @@ public class AuthorController {
     }
 
     @GetMapping("/authors/authorList")
-    public String showAuthors(Model model) {
-        List<Author> authors = authorRepo.findAll();
-        model.addAttribute("authors", authors);
+    public String showAuthors(Model model, Pageable pageable) {
+        Page<Author> authorPage = authorRepo.findAll(pageable);
+        model.addAttribute("authors", authorPage.getContent());
+        model.addAttribute("currentPage", authorPage.getNumber());
+        model.addAttribute("totalPages", authorPage.getTotalPages());
         return "author-list";
     }
 
